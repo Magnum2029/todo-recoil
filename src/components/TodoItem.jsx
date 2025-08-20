@@ -1,22 +1,22 @@
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { todoListState } from '../atoms/todoAtom'
 
-export default function TodoItem({ item }) {
-  const [list, setList] = useRecoilState(todoListState)
+export default function TodoItem({ todo }) {
+  const setList = useSetRecoilState(todoListState)
 
-  const toggle = () =>
-    setList(list.map(t => t.id === item.id ? { ...t, done: !t.done } : t))
-
-  const remove = () =>
-    setList(list.filter(t => t.id !== item.id))
+  const toggle = () => setList(prev =>
+    prev.map(t => t.id === todo.id ? { ...t, done: !t.done } : t)
+  )
+  const remove = () => setList(prev => prev.filter(t => t.id !== todo.id))
 
   return (
-    <li className="card">
-      <label className="check">
-        <input type="checkbox" checked={item.done} onChange={toggle} />
-        <span className={item.done ? 'done' : ''}>{item.text}</span>
+    <div className="item">
+      <label style={{ textDecoration: todo.done ? 'line-through' : 'none' }}>
+        <input type="checkbox" checked={todo.done} onChange={toggle} />
+        {todo.text}
       </label>
-      <button className="danger" onClick={remove}>Remover</button>
-    </li>
+      <button onClick={remove}>Excluir</button>
+    </div>
   )
 }
+

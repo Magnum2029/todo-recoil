@@ -1,12 +1,13 @@
 import { selector } from 'recoil'
 import { todoListState } from '../atoms/todoAtom'
 
-export const statsSelector = selector({
-  key: 'statsSelector',
+export const statsState = selector({
+  key: 'statsState',
   get: ({ get }) => {
     const list = get(todoListState)
     const total = list.length
-    const completed = list.filter(t => t.done).length
-    return { total, completed, pending: total - completed }
+    const done = list.filter(t => t.done).length
+    return { total, done, pending: total - done }
   },
 })
+

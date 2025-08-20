@@ -1,15 +1,17 @@
 import { useRecoilValue } from 'recoil'
-import { filteredTodosSelector } from '../selectors/filteredTodos'
+import { filteredTodosState } from '../selectors/filteredTodos'
 import TodoItem from './TodoItem'
 
 export default function TodoList() {
-  const list = useRecoilValue(filteredTodosSelector)
+  const todos = useRecoilValue(filteredTodosState)
 
-  if (!list.length) return <p className="empty">Nenhuma tarefa por aqui…</p>
+  if (!todos.length) {
+    return <div className="item">Nenhuma tarefa cadastrada.</div>
+  }
 
   return (
-    <ul className="grid">
-      {list.map(item => <TodoItem key={item.id} item={item} />)}
-    </ul>
+    <div>
+      {todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
+    </div>
   )
 }

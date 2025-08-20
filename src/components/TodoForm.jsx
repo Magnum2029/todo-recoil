@@ -8,24 +8,20 @@ export default function TodoForm() {
 
   function addTodo(e) {
     e.preventDefault()
-    const value = text.trim()
-    if (!value) return
-    setList(old => [
-      ...old,
-      { id: crypto.randomUUID(), text: value, done: false }
-    ])
+    if (!text.trim()) return
+    setList(prev => [...prev, { id: crypto.randomUUID(), text: text.trim(), done: false }])
     setText('')
   }
 
   return (
-    <form className="row" onSubmit={addTodo}>
+    <form onSubmit={addTodo}>
       <input
-        className="input"
-        placeholder="Digite uma tarefa…"
         value={text}
         onChange={e => setText(e.target.value)}
+        placeholder="Nova tarefa..."
       />
-      <button className="btn">Adicionar</button>
+      <button type="submit">Adicionar</button>
     </form>
   )
 }
+

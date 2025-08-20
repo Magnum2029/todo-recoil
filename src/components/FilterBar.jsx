@@ -1,24 +1,23 @@
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { filterState } from '../atoms/filterAtom'
-
-const BTN = ({ value, current, onClick, children }) => (
-  <button
-    className={`chip ${current === value ? 'active' : ''}`}
-    onClick={() => onClick(value)}
-    type="button"
-  >
-    {children}
-  </button>
-)
+import { statsState } from '../selectors/statsSelector'
 
 export default function FilterBar() {
   const [filter, setFilter] = useRecoilState(filterState)
+  const stats = useRecoilValue(statsState)
 
   return (
-    <div className="row gap">
-      <BTN value="all" current={filter} onClick={setFilter}>Todas</BTN>
-      <BTN value="completed" current={filter} onClick={setFilter}>Concluídas</BTN>
-      <BTN value="pending" current={filter} onClick={setFilter}>Pendentes</BTN>
+    <div className="filters">
+      <button onClick={() => setFilter('all')} disabled={filter === 'all'}>
+        Todas ({stats.total})
+      </button>
+      <button onClick={() => setFilter('pending')} disabled={filter === 'pending'}>
+        Pendentes ({stats.pending})
+      </button>
+      <button onClick={() => setFilter('done')} disabled={filter === 'done'}>
+        Concluídas ({stats.done})
+      </button>
     </div>
   )
 }
+
